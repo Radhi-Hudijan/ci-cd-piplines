@@ -1,12 +1,17 @@
-const core = require('@actions/core');
-const moment = require('moment');
+const fs = require('fs');
 
 try {
-  const name = core.getInput('name');
+  const name = process.env.INPUT_NAME || 'test-custom-action';
   console.log(`Hello, ${name}. We appreciate your business!`);
-  const timestamp = moment().format();
+
+  const timestamp = new Date().toISOString();
   console.log(`Greeting issued at: ${timestamp}`);
-  core.setOutput("timestamp", timestamp);
+
+  const outputPath = process.env.GITHUB_OUTPUT;
+  if (outputPath) {
+    fs.appendFileSync(outputPath, `timestamp=${timestamp}${require('os').EOL}`);
+  }
 } catch (error) {
-  core.setFailed(error.message);
+  console.error(error.message);
+  process.exit(1);
 }
