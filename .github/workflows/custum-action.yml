@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run custom action
-        uses: radhi-hudijan/lesson-3-demos/business-greetings-action@main
+        uses: ./lesson-3-demos/business-greetings-action
