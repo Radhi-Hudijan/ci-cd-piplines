@@ -1,6 +1,7 @@
 name : custom-action
 on: 
-push:
+
+ push:
   branches:
     - main
 
