@@ -1,5 +1,9 @@
 name : custom-action
-on: [push]
+on: 
+push:
+  branches:
+    - main
+
 jobs:
   greet:
     runs-on: ubuntu-latest
