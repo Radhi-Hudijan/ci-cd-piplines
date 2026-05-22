@@ -4,10 +4,26 @@ inputs:
   name:
     description: 'Name of the person or team to greet'
     required: true
-    default: 'Udacity Learner'
+    default: 'test-custom-action'
+ 
 outputs:
   timestamp:
     description: 'Time of greeting'
 runs:
-  using: 'node18'
+  using: 'node24'
   main: 'index.js'
+
+
+# name: 'Business Greetings'
+# description: 'Offers professional greetings and timestamps them'
+# inputs:
+#   name:
+#     description: 'Name of the person or team to greet'
+#     required: true
+#     default: 'Udacity Learner'
+# outputs:
+#   timestamp:
+#     description: 'Time of greeting'
+# runs:
+#   using: 'node18'
+#   main: 'index.js'
