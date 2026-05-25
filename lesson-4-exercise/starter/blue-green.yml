@@ -5,7 +5,6 @@ on:
       - main
 
 env:
-
   TF_ACTION_WORKING_DIR: 'terraform' 
 
 jobs:
@@ -15,32 +14,54 @@ jobs:
 
     steps:
       # Check out the code to the runner
-      - name: 
+      - name: checkout
+        uses: actions/checkout@v3
       
-      # Configure AWS credentials
-      - name: 
+      # Configure AWS credentials 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
       # Set up the specified version of Terraform
-      - name:
+      - name: set up Terraform
+        uses: hashicorp/setup-terraform@v2
+      
       
       # Initialize your Terraform configuration
-      - name: 
+      - name: initialise Terraform
+        run: terraform init
 
       # Validate your Terraform configuration
-      - name: 
+      - name: validate Terraform
+        run: terraform validate
 
       # Generate and display an execution plan
-      - name: 
+      - name: generate execution plan
+        run: terraform plan
+
       # Apply the changes required to reach the desired state of the configuration
-      - name: 
+      - name: apply Terraform configuration
+        run: terraform apply -auto-approve
 
       # Check the status of the Blue environment (pseudo-code)
-      - name:
+      - name: Check Blue environment status
+        id: blue_status
+        run: echo "::set-output name=status::$(terraform output -raw blue_status)"
 
       # Check the status of the Green environment (pseudo-code)
-      - name: 
+      - name: Check Green environment status
+        id: green_status
+        run: echo "::set-output name=status::$(terraform output -raw green_status)"
 
       # Switch traffic to the Green environment if the Blue environment is currently live (pseudo-code)
-      - name: 
+      - name: Switch to Green environment
+        if: ${{ steps.blue_status.outputs.status == 'live' }}
+        run: echo "Switching traffic to Green environment"
 
       # Switch traffic to the Blue environment if the Green environment is currently live (pseudo-code)
-      - name: 
+      - name: Switch to Blue environment
+        if: ${{ steps.green_status.outputs.status == 'live' }}
+        run: echo "Switching traffic to Blue environment"
